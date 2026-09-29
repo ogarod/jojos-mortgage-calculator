@@ -1,4 +1,4 @@
-/* ==========================================================================
+﻿/* ==========================================================================
    Mortgage Calculator — Modern Dark Mode & Glassmorphic Styling
    ========================================================================== */
 
@@ -109,6 +109,112 @@ body {
   border-radius: 9999px;
   font-size: 0.78rem;
   font-weight: 600;
+}
+
+/* Header Actions */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.privacy-badge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 14px;
+  border-radius: 9999px;
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--emerald);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: help;
+  user-select: none;
+  transition: all var(--transition-fast);
+}
+
+.privacy-badge:hover,
+.privacy-badge:focus-visible {
+  background: rgba(16, 185, 129, 0.18);
+  border-color: rgba(16, 185, 129, 0.55);
+  box-shadow: 0 0 16px rgba(16, 185, 129, 0.25);
+  outline: none;
+}
+
+.privacy-badge svg {
+  flex-shrink: 0;
+  color: var(--emerald);
+}
+
+/* Tooltip for Privacy Guarantee */
+.privacy-badge .tooltip-text {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 290px;
+  background: #111827;
+  color: #f1f5f9;
+  font-size: 0.78rem;
+  font-weight: 400;
+  line-height: 1.45;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6), 0 0 15px rgba(16, 185, 129, 0.15);
+  z-index: 100;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  transform: translateY(-4px);
+}
+
+.privacy-badge .tooltip-text::before {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  right: 24px;
+  border-width: 6px;
+  border-style: solid;
+  border-color: transparent transparent #111827 transparent;
+}
+
+.privacy-badge:hover .tooltip-text,
+.privacy-badge:focus-visible .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* GitHub Open Source Button */
+.github-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-main);
+  border: 1px solid var(--border-subtle);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+.github-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.github-btn svg {
+  flex-shrink: 0;
 }
 
 /* Main 2-Column Grid */
@@ -997,6 +1103,14 @@ input.input-error {
     flex-direction: column;
     align-items: flex-start;
     gap: 16px;
+  }
+  .privacy-badge .tooltip-text {
+    right: auto;
+    left: 0;
+  }
+  .privacy-badge .tooltip-text::before {
+    right: auto;
+    left: 20px;
   }
   .container {
     padding: 0 16px;

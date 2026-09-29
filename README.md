@@ -34,6 +34,9 @@ Python includes a built-in static HTTP server with zero dependencies or external
 
 ## Core Features
 
+- **100% Privacy Guarantee**:
+  - All mortgage calculations and data lookups run entirely client-side in your browser.
+  - Zero telemetry, tracking, or remote transmission—your financial numbers, income figures, and loan details never leave your device.
 - **Real-Time Payment Breakdown**:
   - Live calculations for Principal & Interest, Property Taxes, Homeowner's Insurance, HOA Dues, and Private Mortgage Insurance (PMI).
   - Interactive Canvas donut chart and legend updating instantly on any input change.

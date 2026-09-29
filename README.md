@@ -1,6 +1,8 @@
-# Jojo's Mortgage Calculator
+﻿# Jojo's Mortgage Calculator
 
 An advanced, interactive mortgage calculator with real-time PITI payment breakdowns, dynamic property tax lookup by ZIP code from US Census ACS data, 50+ years of Freddie Mac PMMS historical mortgage rate trends, smart personal finance insights, and full amortization schedules.
+
+![Jojo's Mortgage Calculator Preview](images/main_view.png)
 
 ---
 
@@ -100,3 +102,9 @@ Tests automatically launch a headless browser, run through UI scenarios, verify 
 - **Libraries via CDN**:
   - [Chart.js](https://www.chartjs.org/) for historical rate charting and payment donut breakdown.
   - Google Fonts (Inter) for clean, modern typography.
+
+---
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

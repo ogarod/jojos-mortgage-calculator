@@ -1,0 +1,42 @@
+name: Update Freddie Mac PMMS Mortgage Rates
+
+on:
+  schedule:
+    # Freddie Mac publishes new weekly survey rates every Thursday around 12:00 PM US Eastern Time.
+    # Run every Thursday at 18:00 UTC (2:00 PM EDT / 1:00 PM EST).
+    - cron: '0 18 * * 4'
+  workflow_dispatch: # Enables manual triggering via the Actions tab in GitHub
+
+jobs:
+  update-rates:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Required for committing and pushing changes back to the repository
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run PMMS Rate Generator
+        run: |
+          python generate_pmms_rates.py ./js
+
+      - name: Commit and push if rates updated
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add js/pmms_rates.js js/pmms_rates.json
+
+          if git diff --cached --quiet; then
+            echo "No new rate data detected. Working tree clean."
+          else
+            echo "New PMMS rates detected. Committing and pushing..."
+            git commit -m "chore(data): update Freddie Mac PMMS rates [skip ci]"
+            git push
+          fi

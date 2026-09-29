@@ -1,0 +1,62 @@
+name: Update Property Taxes by ZIP Code
+
+on:
+  schedule:
+    # Runs monthly on the 1st of each month at 03:00 UTC
+    - cron: '0 3 1 * *'
+  workflow_dispatch: # Enables manual triggering via the Actions tab in GitHub
+    inputs:
+      survey_year:
+        description: 'Census ACS 5-Year survey year'
+        required: false
+        default: '2023'
+
+jobs:
+  update-taxes:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Required for committing and pushing changes back to the repository
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          pip install pandas requests openpyxl
+
+      - name: Run Property Tax Data Fetcher
+        env:
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
+          SURVEY_YEAR: ${{ github.event.inputs.survey_year || '2023' }}
+        run: |
+          API_KEY_ARG=""
+          if [ -n "$CENSUS_API_KEY" ]; then
+            API_KEY_ARG="--api-key $CENSUS_API_KEY"
+          fi
+
+          python fetch_property_tax_data.py \
+            --hud-crosswalk data/hud_usps_crosswalk_ZIP-COUNTY_062026.xlsx \
+            --summarized-output-path js/propertyTaxesByZipCode.json \
+            --year "$SURVEY_YEAR" \
+            $API_KEY_ARG
+
+      - name: Commit and push if property tax data updated
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add js/propertyTaxesByZipCode.json
+
+          if git diff --cached --quiet; then
+            echo "No property tax data changes detected. Working tree clean."
+          else
+            echo "New property tax data detected. Committing and pushing..."
+            git commit -m "chore(data): update property taxes by ZIP code [skip ci]"
+            git push
+          fi
